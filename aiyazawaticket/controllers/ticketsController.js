@@ -39,7 +39,7 @@ export const createTicket = async (req, res) => {
         const newTicket = req.body;
     
         const createdTicket = await TicketService.createTicket(newTicket);
-        const qrCodeImage = await QRCode.toDataURL(JSON.stringify(foundTicket));
+        const qrCodeImage = await QRCode.toDataURL(JSON.stringify(createdTicket));
 
         return res.status(201).json({
         ticket: createdTicket,
