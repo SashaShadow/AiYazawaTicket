@@ -34,14 +34,15 @@ export const getTicket = async (req, res) => {
 
 export const createTicket = async (req, res) => {
     try {
-      const newTicket = req.body;
-  
-      const createdTicket = await TicketService.createTicket(newTicket);
-v  
-      return res.status(201).json({
+        const newTicket = req.body;
+    
+        const createdTicket = await TicketService.createTicket(newTicket);
+        const qrCodeImage = await QRCode.toDataURL(JSON.stringify(foundTicket));
+
+        return res.status(201).json({
         ticket: createdTicket,
         qrCode: qrCodeImage,
-      });
+        });
     } catch (error) {
       console.error('Error al crear el ticket:', error);
       return res.status(500).json({ error: error.toString() });
