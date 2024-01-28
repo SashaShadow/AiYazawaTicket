@@ -1,8 +1,8 @@
 class TicketDTO {
     constructor(rawProd) {
         this.name = rawProd.name;
-        this.dni = rawProd.price;
-        this.cantidad = rawProd.stock;
+        this.dni = rawProd.dni;
+        this.cantidad = rawProd.cantidad;
         this.id = rawProd._id;
     }
 }

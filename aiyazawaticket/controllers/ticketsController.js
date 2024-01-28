@@ -17,13 +17,19 @@ export const getTickets = async (req, res) => {
 
 export const getTicket = async (req, res) => {
     const prodId = req.params.id;
-    return TicketService.getTicket(prodId)
-    .then(Ticketo => {
-        return res.status(200).json({Ticketo})
-    })
-    .catch(err => {
-        res.status(404).json({error: 'No se ha encontrado dicho ticket', desc: err.toString()}); 
-    });
+
+    try {
+        const foundTicket = await TicketService.getTicket(prodId)
+        const qrCodeImage = await QRCode.toDataURL(JSON.stringify(foundTicket));
+    
+        return res.status(201).json({
+            ticket: foundTicket,
+            qrCode: qrCodeImage,
+        });
+    } catch (err) {
+        console.error('Error al crear el ticket:', error);
+        return res.status(404).json({error: 'No se ha encontrado dicho ticket', desc: err.toString()}); 
+    }
 }
 
 export const createTicket = async (req, res) => {
@@ -31,8 +37,7 @@ export const createTicket = async (req, res) => {
       const newTicket = req.body;
   
       const createdTicket = await TicketService.createTicket(newTicket);
-      const qrCodeImage = await QRCode.toDataURL(JSON.stringify(createdTicket));
-  
+v  
       return res.status(201).json({
         ticket: createdTicket,
         qrCode: qrCodeImage,
